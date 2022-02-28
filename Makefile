@@ -235,9 +235,10 @@ App/app.so: App/App.cpp App/Enclave_u.o
 	$(CXX) $(App_Cpp_Flags) App/App.cpp -o $@ App/Enclave_u.o $(App_Link_Flags)
 	@echo "CXX  <=  $<"
 
-$(App_Name): App/Enclave_u.o App/app.so #$(App_Cpp_Objects)
+$(App_Name): App/Enclave_u.o App/app.so $(App_Cpp_Objects)
 	$(CXX) $^ -o $@ $(App_Link_Flags)
 	@echo "LINK =>  $@"
+
 
 ######## Enclave Objects ########
 

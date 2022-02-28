@@ -160,7 +160,7 @@ void print_error_message(sgx_status_t ret)
  *   Call sgx_create_enclave to initialize an enclave instance
  */
 
-unsigned long int eid;;
+unsigned long int eid;
 
 extern "C" {
     unsigned long int initialize_enclave(void)
@@ -177,33 +177,45 @@ extern "C" {
         return eid;
     }
 
-    void destroy_enclave(unsigned long int eid) {
+    void destroy_enclave() {
         sgx_destroy_enclave(eid);
     }
 
 
     // c++ to pythorh interface
-    // TODO: Uncomment addNoisePython after done with implementing ecalls
-    void addNoisePython(int* inp, int* dim, int* out) {
+    // TODO: Uncomment removeNoisePython after done with implementing ecalls
+    void precomputePython(float* weight, int* dim) {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
-        // ret = ecall_addNoise(eid, inp, dim, out);
+        // ret = ecall_precompute(eid, inp, dim);
+        std::cout << dim[0] << " " << dim[1] << std::endl;
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return;
         }
+    }
 
+    // c++ to pythorh interface
+    // TODO: Uncomment addNoisePython after done with implementing ecalls
+    void addNoisePython(float* inp, int* dim, float* out) {
+        sgx_status_t ret = SGX_ERROR_UNEXPECTED;
+        // ret = ecall_addNoise(eid, inp, dim, out);
+
+        if (ret != SGX_SUCCESS) {
+            print_error_message(ret);
+            return;
+        }
     }
 
     // c++ to pythorh interface
     // TODO: Uncomment removeNoisePython after done with implementing ecalls
-    void removeNoisePython(int* weight, int* dim, int* out) {
+    void removeNoisePython(float* inp, int* dim, float* out) {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
         // ret = ecall_removeNoise(eid, inp, dim, out);
+
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return;
         }
-
     }
 }
 
