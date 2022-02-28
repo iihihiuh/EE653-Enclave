@@ -1,0 +1,12 @@
+/* Enclave.edl - Top EDL file. */
+
+enclave {
+    trusted {
+        public int ecall_compute_secrete_operation([user_check] int* inp, int size);
+    };
+    
+    untrusted {
+        void ocall_print_string([in, string] const char *str);
+    };
+
+};
