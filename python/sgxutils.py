@@ -15,13 +15,18 @@ class SGXUtils(object):
 
         self.lib.init_sgx()
 
-
+    # given a weight & precompute w*r
     def precompute(self, w):
         self.lib.precompute(w.T.cpu())
 
+    # given a input vector, compute inp + r
     def addNoise(self, inp):
         return self.lib.addNoise(inp.cpu()).cuda()
 
+    # recover the results using w*r
     def removeNoise(self, inp):
         return self.lib.removeNoise(inp.cpu()).cuda()
 
+    # run matrix multiplicaiton inside sgx Encalve
+    def nativeMatMul(self, w, inp):
+        return self.lib.nativeMatMul(w.T.cpu(), inp.cpu())

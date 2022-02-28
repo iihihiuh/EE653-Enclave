@@ -187,7 +187,6 @@ extern "C" {
     void precomputePython(float* weight, int* dim) {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
         // ret = ecall_precompute(eid, inp, dim);
-        std::cout << dim[0] << " " << dim[1] << std::endl;
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return;
@@ -212,6 +211,18 @@ extern "C" {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
         // ret = ecall_removeNoise(eid, inp, dim, out);
 
+        if (ret != SGX_SUCCESS) {
+            print_error_message(ret);
+            return;
+        }
+    }
+
+    // c++ to pythorh interface
+    // TODO: Uncomment removeNoisePython after done with implementing ecalls
+    void nativeMatMul(float* w, int* dimW, float* inp, int* dimInp, float* out) {
+        sgx_status_t ret = SGX_ERROR_UNEXPECTED;
+        // ret = ecall_nativeMatMul(eid, w, dimW, inp, dimInp, out);
+        
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return;
