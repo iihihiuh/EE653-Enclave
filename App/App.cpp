@@ -160,11 +160,12 @@ void print_error_message(sgx_status_t ret)
  *   Call sgx_create_enclave to initialize an enclave instance
  */
 
+unsigned long int eid;;
+
 extern "C" {
     unsigned long int initialize_enclave(void)
     {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
-        unsigned long int eid;;
         /* Call sgx_create_enclave to initialize an enclave instance */
         /* Debug Support: set 2nd parameter to 1 */
         ret = sgx_create_enclave(ENCLAVE_FILENAME, SGX_DEBUG_FLAG, NULL, NULL, &eid, NULL);
@@ -178,6 +179,31 @@ extern "C" {
 
     void destroy_enclave(unsigned long int eid) {
         sgx_destroy_enclave(eid);
+    }
+
+
+    // c++ to pythorh interface
+    // TODO: Uncomment addNoisePython after done with implementing ecalls
+    void addNoisePython(int* inp, int* dim, int* out) {
+        sgx_status_t ret = SGX_ERROR_UNEXPECTED;
+        // ret = ecall_addNoise(eid, inp, dim, out);
+        if (ret != SGX_SUCCESS) {
+            print_error_message(ret);
+            return;
+        }
+
+    }
+
+    // c++ to pythorh interface
+    // TODO: Uncomment removeNoisePython after done with implementing ecalls
+    void removeNoisePython(int* weight, int* dim, int* out) {
+        sgx_status_t ret = SGX_ERROR_UNEXPECTED;
+        // ret = ecall_removeNoise(eid, inp, dim, out);
+        if (ret != SGX_SUCCESS) {
+            print_error_message(ret);
+            return;
+        }
+
     }
 }
 
@@ -202,9 +228,7 @@ int SGX_CDECL main(int argc, char *argv[])
     int size =  std::stoi(argv[1]);
 
     // enclave creations
-    sgx_enclave_id_t eid;
     eid = initialize_enclave(); // ECREATE EADD EEXTEND EINIT
-    
 
     int* inp = new int[size];
     
@@ -212,6 +236,7 @@ int SGX_CDECL main(int argc, char *argv[])
         inp[i] = rand() % 30;
 
     // encrypt the inp buffer
+    // use memcpy and seal_function
     // ....
 
     int retVal;
