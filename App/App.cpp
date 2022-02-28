@@ -186,7 +186,7 @@ extern "C" {
     // TODO: Uncomment removeNoisePython after done with implementing ecalls
     void precomputePython(float* weight, int* dim) {
         sgx_status_t ret = SGX_ERROR_UNEXPECTED;
-        // ret = ecall_precompute(eid, inp, dim);
+        // ret = ecall_precompute(eid, weight, dim);
         if (ret != SGX_SUCCESS) {
             print_error_message(ret);
             return;
