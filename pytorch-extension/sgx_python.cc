@@ -47,14 +47,14 @@ torch::Tensor removeNoise(torch::Tensor inp) {
     return res;
 }
 
-void precompute(torch::Tensor w) {
-    typedef void (* precompute_t) (float* w, int* dim);
+void precompute(torch::Tensor w, int batch) {
+    typedef void (* precompute_t) (float* w, int* dim, int batch);
     precompute_t func = (precompute_t) dlsym(lib_, "precomputePython");
 
     int* dim = new int[2];
     dim[0] = w.size(0);
     dim[1] = w.size(1);
-    func((float*) w.data_ptr(), dim);
+    func((float*) w.data_ptr(), dim, batch);
     delete[] dim;
 }
 

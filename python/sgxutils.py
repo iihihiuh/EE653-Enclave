@@ -16,8 +16,8 @@ class SGXUtils(object):
         self.lib.init_sgx()
 
     # given a weight & precompute w*r
-    def precompute(self, w):
-        self.lib.precompute(w.T.cpu())
+    def precompute(self, w, batch):
+        self.lib.precompute(w.T.cpu(), batch)
 
     # given a input vector, compute inp + r
     def addNoise(self, inp):

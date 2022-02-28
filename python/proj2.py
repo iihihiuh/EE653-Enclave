@@ -10,7 +10,7 @@ def main(args):
 
 
     # given the weight; precompute w * r
-    sgxutils.precompute(l.weight)
+    sgxutils.precompute(l.weight, args.batch)
 
     # x_blinded = x + r
     x_blinded = sgxutils.addNoise(x)
